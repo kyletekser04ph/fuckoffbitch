@@ -3,7 +3,7 @@ const moment = require('moment');
 module.exports = {
   config: {
     name: "uptime",
-    aliases: ['upt'],
+    aliases: ['up'],
     version: "1.0",
     author: "HeDroxuu",
     category: "system",
@@ -15,7 +15,7 @@ module.exports = {
     const uptime = process.uptime();
     const formattedUptime = formatMilliseconds(uptime * 1000);
 
-    const response = `╭╼╾『𝐒𝐲𝐬𝐭𝐞𝐦 𝐔𝐩𝐭𝐢𝐦𝐞』\n${formattedUptime}`;
+    const response = `╭╼╾『📡 𝗦𝗬𝗦𝗧𝗘𝗠 𝗨𝗣𝗧𝗜𝗠𝗘』\n${formattedUptime}`;
 
     message.reply(response);
   }
@@ -27,5 +27,5 @@ function formatMilliseconds(ms) {
   const hours = Math.floor(minutes / 60);
   const days = Math.floor(hours / 24);
 
-  return `╰─> 𝐃𝐚𝐲𝐬 ─ ${days}\n╰─> 𝐇𝐫𝐬 ─ ${hours % 24}\n╰─> 𝐌𝐢𝐧𝐬 ─ ${minutes % 60}\n╰─> 𝐒𝐞𝐜 ─ ${seconds % 60}`;
+  return `╰─> 𝘿𝘢𝘺𝘴 ─ ${days}\n╰─➣ 𝙃𝘳𝘴─ ${hours % 24}\n╰─➣ 𝙈𝘪𝘯𝘴 ─ ${minutes % 60}\n╰─➣ 𝙎𝘦𝘤 ─ ${seconds % 60}`;
 }
