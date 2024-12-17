@@ -1,4 +1,4 @@
-let greetingsEnabled = true; // Variable to track the status of the greetings feature
+let greetingsEnabled = false; // Variable to track the status of the greetings feature
 
 module.exports = {
   config: {
