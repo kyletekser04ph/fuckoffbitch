@@ -34,7 +34,7 @@ module.exports = {
       const categories = {};
       let msg = "";
 
-      msg += `╔═══════════╗\n 𓃵 𝗭𝗘𝗣𝗛𝗬𝗥𝗨𝗦 𝗕𝗢𝗧\n╚═══════════╝`; // replace with your name 
+      msg += `╔════════════╗\n 𓃵 𝗭𝗘𝗣𝗛𝗬𝗥𝗨𝗦 𝗕𝗢𝗧 \n╚════════════╝`; // replace with your name 
 
       for (const [name, value] of commands) {
         if (value.config.role > 1 && role < value.config.role) continue;
@@ -46,16 +46,16 @@ module.exports = {
 
       Object.keys(categories).forEach((category) => {
         if (category !== "info") {
-          msg += `\n╭───────────\n│ 『  ${category.toUpperCase()}  』`;
+          msg += `\n╭───────────❃\n│ 『  ${category.toUpperCase()}  』`;
 
 
           const names = categories[category].commands.sort();
           for (let i = 0; i < names.length; i += 3) {
-            const cmds = names.slice(i, i + 3).map((item) => `✰${item}`);
+            const cmds = names.slice(i, i + 3).map((item) => `𓃵${item}`);
             msg += `\n│ ${cmds.join(" ".repeat(Math.max(1, 10 - cmds.join("").length)))}`;
           }
 
-          msg += `\n╰────────────`;
+          msg += `\n╰────────────❃`;
         }
       });
 
