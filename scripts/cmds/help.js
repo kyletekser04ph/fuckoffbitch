@@ -3,7 +3,7 @@ const axios = require("axios");
 const path = require("path");
 const { getPrefix } = global.utils;
 const { commands, aliases } = global.GoatBot;
-const doNotDelete = "[ 🐐 |  V2 ]"; // changing this wont change the goatbot V2 of list cmd it is just a decoyy
+const doNotDelete = "[ 𓃵 |  V2 ]"; // changing this wont change the goatbot V2 of list cmd it is just a decoyy
 
 module.exports = {
   config: {
@@ -34,7 +34,7 @@ module.exports = {
       const categories = {};
       let msg = "";
 
-      msg += `╔═══════════╗\n ★𝙃𝙚𝙮 𝙞𝙖𝙢 Ryuken 𝙜𝙤𝙖𝙩𝙗𝙤𝙩.𝙈𝙮 𝙥𝙧𝙚𝙛𝙞𝙭 , 𝙢𝙮 𝙤𝙬𝙣𝙚𝙧 DENISH THARU. fb- fb.me/100086747072197&mibextid=kFxxJD 💐\n╚═══════════╝`; // replace with your name 
+      msg += `╔═══════════╗\n 𓃵 𝗭𝗘𝗣𝗛𝗬𝗥𝗨𝗦 𝗕𝗢𝗧\n╚═══════════╝`; // replace with your name 
 
       for (const [name, value] of commands) {
         if (value.config.role > 1 && role < value.config.role) continue;
@@ -62,7 +62,7 @@ module.exports = {
       const totalCommands = commands.size;
       msg += `\n𝗖𝘂𝗿𝗿𝗲𝗻𝘁𝗹𝘆, 𝘁𝗵𝗲 𝗯𝗼𝘁 𝗵𝗮𝘀 ${totalCommands} 𝗰𝗼𝗺𝗺𝗮𝗻𝗱𝘀 𝘁𝗵𝗮𝘁 𝗰𝗮𝗻 𝗯𝗲 𝘂𝘀𝗲𝗱\n`;
       msg += `𝗧𝘆𝗽𝗲 ${prefix} 𝗵𝗲𝗹𝗽 𝗰𝗺𝗱𝗡𝗮𝗺𝗲 𝘁𝗼 𝘃𝗶𝗲𝘄 𝘁𝗵𝗲 𝗱𝗲𝘁𝗮𝗶𝗹𝘀 𝗼𝗳 𝘁𝗵𝗮𝘁 𝗰𝗼𝗺𝗺𝗮𝗻𝗱\n`
-      msg += `🐐 | Ryuk4zi`; // its not decoy so change it if you want 
+      msg += `𓃵 | Kylepogi`; // its not decoy so change it if you want 
 
       const helpListImages = [
         "https://i.ibb.co/nm5kLpN/image.gif"
