@@ -12,13 +12,13 @@
 	"antiInbox": false,
 	"language": "en",
 	"notesLanguage": "en",
-	"nickNameBot": "EhYy hOrAa 😗",
-	"prefix": ",",
+	"nickNameBot": "𝗭𝗲𝗽𝗵𝘆𝗿𝘂𝘀𓃵",
+	"prefix": ".",
 	"adminOnly": {
 		"enable": false,
 		"ignoreCommand": []
 	},
-	"adminBot": ["100086747072197"],
+	"adminBot": ["61565022752745"],
 	"whiteListMode": {
 		"enable": false,
 		"whiteListIds": [],
