@@ -65,7 +65,7 @@ module.exports = {
       msg += `𓃵 | Kylepogi`; // its not decoy so change it if you want 
 
       const helpListImages = [
-        "https://i.ibb.co/nm5kLpN/image.gif"
+        "https://i.imgur.com/YIMFTHy.jpeg"
         // Add more image links as needed
       ];
 
