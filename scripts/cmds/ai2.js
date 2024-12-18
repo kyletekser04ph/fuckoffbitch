@@ -1,15 +1,15 @@
 const axios = require('axios');
 const UPoLPrefix = [
-  '.ai',
-  'ai',
-  'Ai',
-  'bot',
+  '.ai2',
+  'ai2',
+  'Ai2',
+  'bot2',
   'ask'
 ]; 
 
   module.exports = {
   config: {
-    name: 'ai',
+    name: 'ai2',
     version: '1.2.1',
     role: 0,
     category: 'AI',
@@ -44,13 +44,13 @@ const UPoLPrefix = [
       
     const encodedPrompt = encodeURIComponent(args.join(" "));
 
-   await message.reply('thinking..');
+   await message.reply('🔍searching.....');
   
     const response = await axios.get(`https://sandipbaruwal.onrender.com/gemini?prompt=${encodedPrompt}`);
  
      const UPoL = response.data.answer; 
 
-      const upolres = `${UPoL}`;
+      const upolres = `[𓃵] -> 𝗔𝗜 𝗚𝗣𝗧:\n──────────────────\n${UPoL}`;
       
         message.reply(upolres);
   }
