@@ -1,15 +1,15 @@
 const axios = require('axios');
 const UPoLPrefix = [
-  '.ai2',
-  'ai2',
-  'Ai2',
-  'bot2',
+  '.ai',
+  'ai',
+  'Ai',
+  'bot',
   'ask'
 ]; 
 
   module.exports = {
   config: {
-    name: 'ai2',
+    name: 'ai',
     version: '1.2.1',
     role: 0,
     category: 'AI',
@@ -50,7 +50,7 @@ const UPoLPrefix = [
  
      const UPoL = response.data.answer; 
 
-      const upolres = `[𓃵] -> 𝗔𝗜 𝗚𝗣𝗧:\n──────────────────\n${UPoL}`;
+      const upolres = `[𓃵] -> 𝗞𝗬𝗟𝗘'𝗦 𝗚𝗣𝗧:\n──────────────────\n${UPoL}`;
       
         message.reply(upolres);
   }
