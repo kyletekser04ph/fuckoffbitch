@@ -8,7 +8,7 @@ const doNotDelete = "[ 🐐 | Goat Bot V2 ]";
 
 module.exports = {
     config: {
-        name: "help2",
+        name: "help",
         version: "1.18",
         author: "NTKhang",
         countDown: 5,
