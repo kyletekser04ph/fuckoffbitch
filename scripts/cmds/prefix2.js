@@ -14,6 +14,7 @@ const uptimeFacts = [
   "Believe you can and you're halfway there.",
   "Life is 10% what happens to us and 90% how we react to it.",
 ];
+
 const startTime = new Date();
 
 module.exports = {
@@ -64,31 +65,21 @@ module.exports = {
 ╠╾➤👥 Users: ${allUsers.length}
 ╠╾➤🔰 Groups: ${allThreads.length}
 ╠╾➤⚡ Speed: ${ping}ms
-╰╾➤📌 𝗨𝗣𝗧𝗜𝗠𝗘 𝗙𝗔𝗖𝗧: ${randomFact}
+╠╾➤📌 𝗨𝗣𝗧𝗜𝗠𝗘 𝗙𝗔𝗖𝗧: ${randomFact}
 ▬▬▬▬▬▬▬ᴷʸˡᵉᵇᵒᵗˢ▬▬▬▬▬`;
 
       try {
         const attachment = await global.utils.getStreamFromURL("https://i.imgur.com/TfkHB4l.jpeg");
-
-        api.sendMessage(
-          { body: systemInfo, attachment },
-          event.threadID,
-          (err, messageInfo) => {
-            if (err) {
-              console.error("Error sending message with attachment:", err);
-              api.sendMessage("Unable to send system information.", event.threadID, event.messageID);
-            } else {
-              console.log("Message with attachment sent successfully:", messageInfo);
-            }
-          }
-        );
+        await api.sendMessage({ body: systemInfo, attachment }, event.threadID);
+        console.log("Message with attachment sent successfully.");
       } catch (attachmentError) {
         console.error("Error fetching attachment:", attachmentError);
-        api.sendMessage("⚠️ Unable to fetch the image attachment.", event.threadID, event.messageID);
+        await api.sendMessage("⚠️ Unable to fetch the image attachment.", event.threadID, event.messageID);
       }
+
     } catch (error) {
       console.error("Error retrieving system information:", error);
-      api.sendMessage("⚠️ Unable to retrieve system information.", event.threadID, event.messageID);
+      await api.sendMessage("⚠️ Unable to retrieve system information.", event.threadID, event.messageID);
     }
   },
 };
