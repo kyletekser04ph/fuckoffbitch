@@ -20,7 +20,7 @@ module.exports = {
 
   onLoad: async function ({ api }) {
     const checkForUpdates = async () => {
-      cron.schedule('*/6 * * * *', async () => { // Run every hour at minute 0
+      cron.schedule('0 * * * *', async () => { // Run every hour at minute 0
         try {
           const uptime = process.uptime();
           const startTime = Date.now();
