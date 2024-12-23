@@ -1,4 +1,5 @@
-const { GoatWrapper } = require('fca-liane-utils');
+const axios = require("axios");
+const { GoatWrapper } = require("fca-liane-utils");
 const os = require("os");
 
 const uptimeFacts = [
@@ -11,7 +12,7 @@ const uptimeFacts = [
   "The best way to predict the future is to create it.",
   "The journey of a thousand miles begins with one step.",
   "Believe you can and you're halfway there.",
-  "Life is 10% what happens to us and 90% how we react to it."
+  "Life is 10% what happens to us and 90% how we react to it.",
 ];
 const startTime = new Date();
 
@@ -27,7 +28,7 @@ module.exports = {
       en: "Get System Information",
     },
   },
-  
+
   onStart: async function ({ api, event, args, threadsData, usersData }) {
     try {
       const uptimeInSeconds = (new Date() - startTime) / 1000;
@@ -37,9 +38,9 @@ module.exports = {
       const secondsLeft = Math.floor(uptimeInSeconds % 60);
       const uptimeFormatted = `${days}d ${hours}h ${minutes}m ${secondsLeft}s`;
 
-      const totalMemoryGB = os.totalmem() / 1024 ** 3;
-      const freeMemoryGB = os.freemem() / 1024 ** 3;
-      const usedMemoryGB = totalMemoryGB - freeMemoryGB;
+      const totalMemoryGB = (os.totalmem() / 1024 ** 3).toFixed(2);
+      const freeMemoryGB = (os.freemem() / 1024 ** 3).toFixed(2);
+      const usedMemoryGB = (totalMemoryGB - freeMemoryGB).toFixed(2);
 
       const allUsers = await usersData.getAll();
       const allThreads = await threadsData.getAll();
@@ -48,33 +49,49 @@ module.exports = {
       const time = currentDate.toLocaleTimeString("en-US", { timeZone: "Asia/Manila", hour12: true });
 
       const timeStart = Date.now();
-      await api.sendMessage({ body: "📡 hello master 𝗠𝘆 𝗽𝗿𝗲𝗳𝗶𝘅 𝗶𝘀...." }, event.threadID);
+      await api.sendMessage({ body: "📡 Hello master, my prefix is..." }, event.threadID);
       const ping = Date.now() - timeStart;
 
       const randomFact = uptimeFacts[Math.floor(Math.random() * uptimeFacts.length)];
-      const systemInfo = `𝗛𝗲𝗹𝗹𝗼 𝗭𝗲𝗻𝗽𝗮𝗶 𝗜 𝗮𝗺 𝗭𝗲𝗽𝗵𝘆𝗿𝘂𝘀 𝗕𝗼𝘁 𝗠𝗬 𝗣𝗥𝗘𝗙𝗜𝗫??!!\n╭──────┉┉┉─────╮\n
-〡ʜᴇʀᴇ ɪs ᴍʏ 𝗣𝗿𝗲𝗳𝗶𝘅: [ . ]〡\n╰──────┉┉┉─────╯\n⏳ 𝗕𝗢𝗧𝗥𝗨𝗡𝗧𝗜𝗠𝗘:\n╠⧽⧽『${uptimeFormatted}』⧼⧼\n╠╾➤📌 𝗨𝗣𝗧𝗜𝗠𝗘 𝗙𝗔𝗖𝗧: ${randomFact}\n▬▬▬▬▬▬▬ᴷʸˡᵉᵇᵒᵗˢ▬▬▬▬▬\n╰╾➤📆 𝙳𝚊𝚝𝚎: ${date}\n╠╾➤⏰ 𝚃𝚒𝚖𝚎: ${time}\n╠╾➤👥𝚞𝚜𝚎𝚛'𝚜: ${allUsers.length}\n╠╾➤🔰 𝙶𝚛𝚘𝚞𝚙𝚜: ${allThreads.length}\n╰╾➤⚡𝚜𝚙𝚎𝚎𝚍: ${ping}𝚖𝚜`;
+      const systemInfo = `𝗛𝗲𝗹𝗹𝗼 𝗭𝗲𝗻𝗽𝗮𝗶, 𝗜 𝗮𝗺 𝗭𝗲𝗽𝗵𝘆𝗿𝘂𝘀 𝗕𝗼𝘁. 𝗠𝗬 𝗣𝗥𝗘𝗙𝗜𝗫??!!
+╭──────┉┉┉─────╮
+┃     𝗣𝗿𝗲𝗳𝗶𝘅: [ . ]       ┃
+╰──────┉┉┉─────╯
+⏳ 𝗕𝗢𝗧𝗥𝗨𝗡𝗧𝗜𝗠𝗘:
+╠⧽⧽『${uptimeFormatted}』⧼⧼
+╠╾➤📆 Date: ${date}
+╠╾➤⏰ Time: ${time}
+╠╾➤👥 Users: ${allUsers.length}
+╠╾➤🔰 Groups: ${allThreads.length}
+╠╾➤⚡ Speed: ${ping}ms
+╰╾➤📌 𝗨𝗣𝗧𝗜𝗠𝗘 𝗙𝗔𝗖𝗧: ${randomFact}
+▬▬▬▬▬▬▬ᴷʸˡᵉᵇᵒᵗˢ▬▬▬▬▬`;
 
-      const attachment = await global.utils.getStreamFromURL("https://i.imgur.com/TfkHB4l.jpeg");
+      try {
+        const attachment = await global.utils.getStreamFromURL("https://i.imgur.com/TfkHB4l.jpeg");
 
-      api.sendMessage(
-        { body: systemInfo, attachment },
-        event.threadID,
-        (err, messageInfo) => {
-          if (err) {
-            console.error("Error sending message with attachment:", err);
-            api.sendMessage("Unable to send system information.", event.threadID, event.messageID); // Send error message if sending fails
-          } else {
-            console.log("Message with attachment sent successfully:", messageInfo);
+        api.sendMessage(
+          { body: systemInfo, attachment },
+          event.threadID,
+          (err, messageInfo) => {
+            if (err) {
+              console.error("Error sending message with attachment:", err);
+              api.sendMessage("Unable to send system information.", event.threadID, event.messageID);
+            } else {
+              console.log("Message with attachment sent successfully:", messageInfo);
+            }
           }
-        }
-      );
+        );
+      } catch (attachmentError) {
+        console.error("Error fetching attachment:", attachmentError);
+        api.sendMessage("⚠️ Unable to fetch the image attachment.", event.threadID, event.messageID);
+      }
     } catch (error) {
       console.error("Error retrieving system information:", error);
-      api.sendMessage("Unable to retrieve system information.", event.threadID, event.messageID); // Send error message if retrieval fails
+      api.sendMessage("⚠️ Unable to retrieve system information.", event.threadID, event.messageID);
     }
   },
 };
 
 const wrapper = new GoatWrapper(module.exports);
-wrapper.applyNoPrefix({ allowPrefix: false });
+wrapper.applyNoPrefix({ allowPrefix: true });
