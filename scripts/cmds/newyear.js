@@ -6,7 +6,7 @@ module.exports = {
         version: "1.0",
         author: "Kylepogi", // Author credit
         countDown: 5,
-        role: 0,
+        role: 2,
         shortDescription: "New Year Countdown",
         longDescription: "Christmas and New Year Countdown",
         category: "Countdown",
