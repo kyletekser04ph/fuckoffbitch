@@ -22,7 +22,7 @@ module.exports = {
       leaveType1: "left",
       leaveType2: "was kicked from",
       defaultLeaveMessage:
-        "Goodbye {userNameTag} \nℹ️ Reason: {type} the group.\n❯ D/T: {serverTime}\nBot Ping: {botPing} ms\nHave a nice {session} 😗",
+        "Goodbye {userNameTag} \nℹ️ Reason: {type} the group.\n\n📅|⏰Date and Time:\n{serverTime}\n⚡Bot Ping: {botPing} ms\nHave a nice {session} 😗",
     },
   },
 
