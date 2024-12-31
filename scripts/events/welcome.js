@@ -26,33 +26,28 @@ module.exports = {
 
   onStart: async ({ threadsData, message, event, api, getLang }) => {
     if (event.logMessageType === "log:subscribe") {
-      // Ensure the correct author name is fetched, if needed
-      const author = event.author;  // Assuming `event.author` contains the author info
-      const authorName = await usersData.getName(author);
-      message.send(getLang("added", authorName));  // Fixed the usage of `msg`
+      const authorName = await usersData.getName(event.author);  // Fetch author name
+      return message.send(getLang("added", authorName));
     }
 
-    const startTime = Date.now(); // Define startTime to calculate bot ping
+    const startTime = Date.now(); // Track start time for bot ping
     const hours = parseInt(getTime("HH"), 10);
     const now = moment().tz("Asia/Manila");
     const serverTime = now.format("DD-MMMM-YYYY || hh:mm:ss A");
-    const endTime = Date.now();
-    const botPing = endTime - startTime;
+    const botPing = Date.now() - startTime;
 
     const { threadID } = event;
     const { nickNameBot } = global.GoatBot.config;
     const prefix = global.utils.getPrefix(threadID);
     const dataAddedParticipants = event.logMessageData.addedParticipants;
 
-    // If the bot is added to the group
+    // Handle bot being added to the group
     if (dataAddedParticipants.some((user) => user.userFbId === api.getCurrentUserID())) {
-      if (nickNameBot) {
-        api.changeNickname(nickNameBot, threadID, api.getCurrentUserID());
-      }
+      if (nickNameBot) api.changeNickname(nickNameBot, threadID, api.getCurrentUserID());
       return message.send(getLang("welcomeMessage", prefix));
     }
 
-    // Handle new members
+    // Ensure thread data for welcome message handling exists
     if (!global.temp.welcomeEvent[threadID]) {
       global.temp.welcomeEvent[threadID] = {
         joinTimeout: null,
@@ -60,43 +55,37 @@ module.exports = {
       };
     }
 
-    // Add new members to the temp array
+    // Update temp data with added participants
     global.temp.welcomeEvent[threadID].dataAddedParticipants.push(...dataAddedParticipants);
-    clearTimeout(global.temp.welcomeEvent[threadID].joinTimeout); // Clear existing timeout
+    clearTimeout(global.temp.welcomeEvent[threadID].joinTimeout); // Clear any existing timeout
 
     global.temp.welcomeEvent[threadID].joinTimeout = setTimeout(async () => {
       const threadData = await threadsData.get(threadID);
+      if (!threadData.settings?.sendWelcomeMessage) return;  // Exit early if welcome messages are disabled
 
-      if (!threadData.settings?.sendWelcomeMessage) return;
-
-      const dataAddedParticipants = global.temp.welcomeEvent[threadID].dataAddedParticipants;
+      const { dataAddedParticipants } = global.temp.welcomeEvent[threadID];
       const dataBanned = threadData.data.banned_ban || [];
       const threadName = threadData.threadName || "this group";
       const userName = [];
       const mentions = [];
-      let multiple = dataAddedParticipants.length > 1;
+      const multiple = dataAddedParticipants.length > 1;
 
+      // Prepare list of users and mentions excluding banned ones
       for (const user of dataAddedParticipants) {
         if (dataBanned.some((bannedUser) => bannedUser.id === user.userFbId)) continue;
         userName.push(user.fullName);
-        mentions.push({
-          tag: user.fullName,
-          id: user.userFbId,
-        });
+        mentions.push({ tag: user.fullName, id: user.userFbId });
       }
 
-      if (userName.length === 0) return;
+      if (userName.length === 0) return; // Exit if no valid users
 
-      // Get and format welcome message
-      let { welcomeMessage = getLang("defaultWelcomeMessage") } = threadData.data;
-      const session = hours <= 10
-        ? getLang("session1")
-        : hours <= 12
-        ? getLang("session2")
-        : hours <= 18
-        ? getLang("session3")
+      // Prepare and format the welcome message
+      const session = hours <= 10 ? getLang("session1")
+        : hours <= 12 ? getLang("session2")
+        : hours <= 18 ? getLang("session3")
         : getLang("session4");
 
+      let welcomeMessage = threadData.data.welcomeMessage || getLang("defaultWelcomeMessage");
       welcomeMessage = welcomeMessage
         .replace(/\{userName\}|\{userNameTag\}/g, userName.join(", "))
         .replace(/\{boxName\}|\{threadName\}/g, threadName)
@@ -110,20 +99,19 @@ module.exports = {
         mentions: mentions.length > 0 ? mentions : null,
       };
 
-      // Add attachments if any
+      // Add attachments if available
       if (threadData.data.welcomeAttachment) {
-        const attachments = threadData.data.welcomeAttachment.map((file) =>
-          drive.getFile(file, "stream")
+        const attachments = await Promise.allSettled(
+          threadData.data.welcomeAttachment.map((file) => drive.getFile(file, "stream"))
         );
-        const resolvedAttachments = await Promise.allSettled(attachments);
-        form.attachment = resolvedAttachments
+        form.attachment = attachments
           .filter(({ status }) => status === "fulfilled")
           .map(({ value }) => value);
       }
 
       // Send the welcome message
       message.send(form);
-      delete global.temp.welcomeEvent[threadID]; // Clean up temporary data
-    }, 1500); // 1.5-second delay
+      delete global.temp.welcomeEvent[threadID];  // Clean up after sending the message
+    }, 1500);  // Delay before sending welcome message
   },
 };
