@@ -7,7 +7,8 @@ const doNotDelete = "[ 𓃵 |  V2 ]"; // changing this wont change the goatbot V
 
 module.exports = {
   config: {
-    name: "help",
+    name: "helpall",
+    aliases: ["helpall","Helpall","HELPALL"], 
     version: "1.17",
     author: "NTKhang", // original author Kshitiz 
     countDown: 5,
