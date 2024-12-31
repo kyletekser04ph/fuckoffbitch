@@ -44,7 +44,7 @@ module.exports.onStart = async function ({ api, event }) {
     };
 
     const videoUrl = "https://i.imgur.com/C8IedFb.mp4";
-    const videoPath = path.join(__dirname, 'tmp', 'owner_video.mp4');
+    const videoPath = path.join(__dirname, 'tmp');
 
     // Download video and save locally
     const videoResponse = await axios.get(videoUrl, { responseType: 'arraybuffer' });
